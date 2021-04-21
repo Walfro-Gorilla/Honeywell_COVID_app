@@ -34,7 +34,8 @@ const Dashboard = () => {
       
 
     return (
-          <Grid container spacing={3} justify="flex-end">          
+          <Grid container spacing={3} justify="flex-end">  
+
             <Grid item xs={4}>
               <Typography variant="h5" color="secondary" align="center">
                 TOP daily
@@ -60,6 +61,12 @@ const Dashboard = () => {
             </Grid>            
             <Grid item xs={4}>
               <TopTable/>
+            </Grid>
+            
+            <Grid item xs={12}>
+              <Typography variant="h4" color="secondary">
+                Graphs
+              </Typography>
             </Grid>
             <Grid item xs={6}>
               <PieChart />              
