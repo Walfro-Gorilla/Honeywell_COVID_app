@@ -20,18 +20,19 @@ const LineChart = (props) => {
     console.log('Array total de fechas en arreglo:',newArrayCount)
 
 
-    const valueDate = []
-    for (let t = 0; t < newArrayDate.length; t++) {
+    const valueDate = [] // creamos el aareglo de los valores x fecha
+    for (let t = 0; t < newArrayDate.length; t++) { // inicioamos un FOR con limite la cantidad de fechas unicas
     
-        let counter = 0;
-        for (let i = 0; i < props.date.length; i++) {
+        let counter = 0; //creamos el contador por fecha
+        for (let i = 0; i < props.date.length; i++) {  //iniciamos un FOR con limite la qty de total de registros a evaluar
 
-            if (props.date[i].fecha === newArrayDate[t]) counter++;
+            if (props.date[i].fecha === newArrayDate[t]) counter++; // SI la fecha del arreglo completo coincide con la primer fecha
+                                                                    //sumariza en la variable counter
         }
 
     console.log('del: ',newArrayDate[t],' son: ',counter); // 
 
-    valueDate.push(counter)
+    valueDate.push(counter) // agregamos el total x fecha al array de valores totales
 
     console.log('arreglo de vaolers:',valueDate)
 
