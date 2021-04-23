@@ -18,19 +18,18 @@ const Dashboard = () => {
 
         const obtenerData = async () => {            
             try {    
+              
                 const db= firebase.firestore()
                 const data = await db.collection('tareas').get()
-                const arrayData = await data.docs.map(doc => ({ id: doc.id, ...doc.data()}))
+                const arrayData = await data.docs.map(doc => ({ id: doc.id, ...doc.data()})) //Obtenemos la data de la BDzz
+                setDaily(arrayData) //Asignamos el array al states
 
-                console.log(arrayData)
-
-                setDaily(arrayData)                
             } catch (error) { 
                 console.log(error)            
             }    
-      }      
-      obtenerData()  
-      },[])
+        }      
+          obtenerData()  
+        },[])
       
 
     return (
@@ -72,7 +71,7 @@ const Dashboard = () => {
               <PieChart />              
             </Grid>    
             <Grid item xs={6}>              
-              <LineChart/>
+              <LineChart date={daily}/>
               <hr/>
             </Grid>   
                      

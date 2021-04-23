@@ -78,7 +78,7 @@ const App = () => {
                 name: tarea,
                 fault:fault,
                 desc:desc,
-                fecha: Date.now()
+                fecha:new Date(Date.now()).toLocaleDateString()
             }
             setSave(true)
             setTimeout(function(){setSave(false)},3000)

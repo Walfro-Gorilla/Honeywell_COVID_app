@@ -33,7 +33,7 @@ const Navbar = () => {
             </IconButton>
 
             <Typography variant="h6" className={classes.title}>
-                Honeywell
+                Honeywell - COVID actions
             </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
