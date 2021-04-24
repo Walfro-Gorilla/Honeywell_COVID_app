@@ -1,17 +1,15 @@
 import React from 'react'
 import { Bar,Line, Pie } from  'react-chartjs-2'
 
-const LineChart = (props) => {
-    
+const LineChart = (props) => {    
 
     const sortArray = props.date.sort((a, b) => (a.fecha > b.fecha) ? 1 : -1) // Sortea los datos de menor a mayot
     const newArrayDate = Array.from(new Set(sortArray.map(item => item.fecha))) // Elimina fechas duplicadas y deja solo fechas
     const newArray = Array.from(new Set(sortArray.map(item => item))) // Sortea x fechas 
 
-    console.log('PROPS:',props) // array de componente en props
+    console.log('PROPS:',props) 
     console.log('Array de fechas: newArrayDate ',newArrayDate)
     console.log('Array sorteado: newArray ',newArray)
-
 
     const newArrayDateCount = newArrayDate.length //Contamos el total de fechas
     const newArrayCount = newArray.length // Contamos el total de registros de fechas
