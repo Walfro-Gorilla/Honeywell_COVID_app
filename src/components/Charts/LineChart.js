@@ -1,66 +1,23 @@
 import React from 'react'
-import { Bar,Line, Pie } from  'react-chartjs-2'
+import { Line } from  'react-chartjs-2'
 
-const LineChart = (props) => {    
-
-    const sortArray = props.date.sort((a, b) => (a.fecha > b.fecha) ? 1 : -1) // Sortea los datos de menor a mayot
-    const newArrayDate = Array.from(new Set(sortArray.map(item => item.fecha))) // Elimina fechas duplicadas y deja solo fechas
-    const newArray = Array.from(new Set(sortArray.map(item => item))) // Sortea x fechas 
-
-    console.log('PROPS:',props) 
-    console.log('Array de fechas: newArrayDate ',newArrayDate)
-    console.log('Array sorteado: newArray ',newArray)
-
-    const newArrayDateCount = newArrayDate.length //Contamos el total de fechas
-    const newArrayCount = newArray.length // Contamos el total de registros de fechas
-
-    console.log('Array total de SOLO fechas:',newArrayDateCount) 
-    console.log('Array total de fechas en arreglo:',newArrayCount)
-
-
-    const valueDate = [] // creamos el aareglo de los valores x fecha
-    for (let t = 0; t < newArrayDate.length; t++) { // inicioamos un FOR con limite la cantidad de fechas unicas
-    
-        let counter = 0; //creamos el contador por fecha
-        for (let i = 0; i < props.date.length; i++) {  //iniciamos un FOR con limite la qty de total de registros a evaluar
-
-            if (props.date[i].fecha === newArrayDate[t]) counter++; // SI la fecha del arreglo completo coincide con la primer fecha
-                                                                    //sumariza en la variable counter
-        }
-
-    console.log('del: ',newArrayDate[t],' son: ',counter); // 
-
-    valueDate.push(counter) // agregamos el total x fecha al array de valores totales
-
-    console.log('arreglo de vaolers:',valueDate)
-
-    }
-    
-
-    const count = newArray.reduce((counter, { fecha }) => fecha === '19/4/2021' ? counter += 1 : counter, 0); 
-    console.log('fecha con:',count)
-
-
-
+const LineChart = (props) => {      
 
     return (
         <div>            
             <Line
                 data={{
-                    labels: newArrayDate    ,    
+                    labels: props.x,  //PROPS x contiene las fechas unicas  
                     datasets: [
                         {   
-                            label: 'Faults by month' ,
-                            data: valueDate,
+                            label: 'Faults history' ,
+                            data: props.y, //PROPS y contiene los valores de cada fecha
                             backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)'
+                                'rgba(255, 99, 132, 0.2)'
+                                
                             ],
                             borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)'
+                                'rgba(255, 99, 132, 1)'
                             ],
                              borderWidth:1
                         },  
@@ -92,3 +49,4 @@ const LineChart = (props) => {
 }
 
 export default LineChart
+ 

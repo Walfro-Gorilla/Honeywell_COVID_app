@@ -1,187 +1,54 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { AutoSizer, Column, Table } from 'react-virtualized';
 
-const styles = (theme) => ({
-  flexContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    boxSizing: 'border-box',
-  },
+const useStyles = makeStyles({
   table: {
-    // temporary right-to-left patch, waiting for
-    // https://github.com/bvaughn/react-virtualized/issues/454
-    '& .ReactVirtualized__Table__headerRow': {
-      flip: false,
-      paddingRight: theme.direction === 'rtl' ? '0 !important' : undefined,
-    },
-  },
-  tableRow: {
-    cursor: 'pointer',
-  },
-  tableRowHover: {
-    '&:hover': {
-      backgroundColor: theme.palette.grey[200],
-    },
-  },
-  tableCell: {
-    flex: 1,
-  },
-  noClick: {
-    cursor: 'initial',
+    minWidth: 100,
   },
 });
 
-class MuiVirtualizedTable extends React.PureComponent {
-  static defaultProps = {
-    headerHeight: 48,
-    rowHeight: 48,
-  };
-
-  getRowClassName = ({ index }) => {
-    const { classes, onRowClick } = this.props;
-
-    return clsx(classes.tableRow, classes.flexContainer, {
-      [classes.tableRowHover]: index !== -1 && onRowClick != null,
-    });
-  };
-
-  cellRenderer = ({ cellData, columnIndex }) => {
-    const { columns, classes, rowHeight, onRowClick } = this.props;
-    return (
-      <TableCell
-        component="div"
-        className={clsx(classes.tableCell, classes.flexContainer, {
-          [classes.noClick]: onRowClick == null,
-        })}
-        variant="body"
-        style={{ height: rowHeight }}
-        align={(columnIndex != null && columns[columnIndex].numeric) || false ? 'right' : 'left'}
-      >
-        {cellData}
-      </TableCell>
-    );
-  };
-
-  headerRenderer = ({ label, columnIndex }) => {
-    const { headerHeight, columns, classes } = this.props;
-
-    return (
-      <TableCell
-        component="div"
-        className={clsx(classes.tableCell, classes.flexContainer, classes.noClick)}
-        variant="head"
-        style={{ height: headerHeight }}
-        align={columns[columnIndex].numeric || false ? 'right' : 'left'}
-      >
-        <span>{label}</span>
-      </TableCell>
-    );
-  };
-
-  render() {
-    const { classes, columns, rowHeight, headerHeight, ...tableProps } = this.props;
-    return (
-      <AutoSizer>
-        {({ height, width }) => (
-          <Table
-            height={height}
-            width={width}
-            rowHeight={rowHeight}
-            gridStyle={{
-              direction: 'inherit',
-            }}
-            headerHeight={headerHeight}
-            className={classes.table}
-            {...tableProps}
-            rowClassName={this.getRowClassName}
-          >
-            {columns.map(({ dataKey, ...other }, index) => {
-              return (
-                <Column
-                  key={dataKey}
-                  headerRenderer={(headerProps) =>
-                    this.headerRenderer({
-                      ...headerProps,
-                      columnIndex: index,
-                    })
-                  }
-                  className={classes.flexContainer}
-                  cellRenderer={this.cellRenderer}
-                  dataKey={dataKey}
-                  {...other}
-                />
-              );
-            })}
-          </Table>
-        )}
-      </AutoSizer>
-    );
-  }
+function createData(fault, qty) {
+  return { fault, qty};
 }
 
-MuiVirtualizedTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      dataKey: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      numeric: PropTypes.bool,
-      width: PropTypes.number.isRequired,
-    }),
-  ).isRequired,
-  headerHeight: PropTypes.number,
-  onRowClick: PropTypes.func,
-  rowHeight: PropTypes.number,
-};
-
-const VirtualizedTable = withStyles(styles)(MuiVirtualizedTable);
-
-// ---
-
-const sample = [
-  ['Cubrebocas', 159],
-  ['Sana distancia', 237],
-  ['Careta', 262],
-  ['Gel antibacterial', 305],
-  ['Lavar manos', 356],
+const rows = [
+  createData('Cubrebocas', 159),
+  createData('Sana distancia', 237),
+  createData('Manos', 262),
+  createData('Temperatura', 305),
+  createData('Facial', 356),
 ];
 
-function createData(id, dessert, calories, fat, carbs, protein) {
-  return { id, dessert, calories, fat, carbs, protein };
-}
+export default function BasicTable() {
+  const classes = useStyles();
 
-const rows = [];
-
-for (let i = 0; i < 200; i += 1) {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  rows.push(createData(i, ...randomSelection));
-}
-
-export default function TopTable() {
   return (
-    <Paper style={{ height: 300, width: '100%' }}>
-      <VirtualizedTable
-        rowCount={rows.length}
-        rowGetter={({ index }) => rows[index]}
-        columns={[
-          {
-            width: 220,
-            label: 'Fault desc',
-            dataKey: 'dessert',
-          },
-          {
-            width:100,
-            label: 'Qty \u00A0(#)',
-            dataKey: 'calories',
-            numeric: true,
-          },
-        ]}
-      />
-    </Paper>
+    <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Faults</TableCell>
+            <TableCell align="right">Qty</TableCell>            
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.fault}>
+              <TableCell component="th" scope="row">
+                {row.fault}
+              </TableCell>
+              <TableCell align="right">{row.qty}</TableCell>            
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

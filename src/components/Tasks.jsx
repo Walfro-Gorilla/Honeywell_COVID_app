@@ -10,24 +10,28 @@ import OkMsg from './OkMsg.jsx'
 
 const currencies = [
     {
-        value: 'EUR',
+        value: '-',
         label: '-',
     },
     {
-        value: 'USD',
+        value: 'Cubrebocas',
         label: 'Sin cubrebocas',
     },   
     {
-        value: 'FC',
+        value: 'Protector facial',
         label: 'Sin Protector facial',
     },
     {
-      value: 'BTC',
+      value: 'Sana Distancia',
       label: 'Sin Sana distancia',
     },
     {
-      value: 'JPY',
-      label: 'No se lavo las manos',
+        value: 'Manos limpias',
+        label: 'No se lavo las manos',
+    },
+    {
+    value: 'Temperatura',
+    label: 'Alta temperatura',
     },
   ];
 
