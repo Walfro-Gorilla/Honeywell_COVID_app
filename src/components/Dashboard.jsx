@@ -6,6 +6,7 @@ import ExcelExport from './ExcelExport.jsx'
 import TopTable from './TablaTop.jsx'
 import Typography from '@material-ui/core/Typography'
 import {firebase} from '../firebase'
+import { Button,ButtonGroup } from '@material-ui/core'
 
 const Dashboard = () => {
 
@@ -55,13 +56,13 @@ const Dashboard = () => {
                                                                         //sumariza en la variable counter
             }
     
-        console.log('del: ',newArrayDate[t],' son: ',counter); // 
+        //console.log('del: ',newArrayDate[t],' son: ',counter); 
     
         valueDate.push(counter) // agregamos el total x fecha al array de valores totales
     
         console.log('arreglo x DATES:',valueDate)
     
-        }
+      }
 
 
       //FUNCION para obtener los valores por fault
@@ -87,33 +88,21 @@ const Dashboard = () => {
     return (
           <Grid container spacing={3} justify="flex-end">  
 
-            <Grid item xs={4}>
+            <Grid item xs={12}>   
+              <ButtonGroup disableElevation variant="contained" color="primary">
+                <ExcelExport data={sortArray} />
+              </ButtonGroup>                          
+            </Grid>
+
+            <Grid item xs={12}>
               <Typography variant="h5" color="secondary" align="center">
-                TOP daily
+                TOP actions table
               </Typography>              
             </Grid>
-            <Grid item xs={4}>
-              <Typography variant="h5" color="secondary" align="center">
-                TOP weekly
-              </Typography>              
-            </Grid>            
-            <Grid item xs={4}>
-              <Typography variant="h5" color="secondary" align="center">
-                TOP monthly
-              </Typography>     
-            </Grid>
-            
-            
-            <Grid item xs={4}>
-              <TopTable/>
-            </Grid>
-            <Grid item xs={4}>
+                      
+            <Grid item xs={12}>
               <TopTable/>
             </Grid>            
-            <Grid item xs={4}>
-              <TopTable/>
-            </Grid>
-            
             <Grid item xs={12}>
               <Typography variant="h4" color="secondary">
                 Graphs
@@ -125,10 +114,8 @@ const Dashboard = () => {
             <Grid item xs={6}>              
               <LineChart x={newArrayDate} y={valueDate} />
               <hr/>
-            </Grid>   
-                     
-          </Grid>  
-          
+            </Grid>                        
+          </Grid>           
     )
 }
 

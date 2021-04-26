@@ -1,5 +1,7 @@
 import React from 'react'
 import ExportExcel from 'react-export-excel';
+import { Button } from '@material-ui/core'
+
 
 const ExcelFile = ExportExcel.ExcelFile;
 const ExcelSheet = ExportExcel.ExcelSheet;
@@ -27,20 +29,20 @@ const registroAcciones = [
 ]
 
 
-const ExcelExport = () => {
+const ExcelExport = (props) => {
     return (
         <div>
             <ExcelFile
-                element={<button>Exportar</button>}
+                element={<Button variant="outlined" color="primary">.XLS</Button>}
                 filename="COVID Report Export"
             >
                 <ExcelSheet
-                    data={registroAcciones} name="Reporte Acciones"
+                    data={props.data} name="Reporte Acciones"
                 >
                     <ExcelColumn label="Fecha" value="fecha"/>
-                    <ExcelColumn label="Gafete" value="gafete"/>
+                    <ExcelColumn label="Gafete" value="name"/>
                     <ExcelColumn label="Falta" value="fault"/>
-                    <ExcelColumn label="des" value="Detalle"/>
+                    <ExcelColumn label="Detalle" value="desc"/>
 
                 </ExcelSheet>
 

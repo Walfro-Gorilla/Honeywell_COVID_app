@@ -1,54 +1,43 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import * as React from 'react';
+import { DataGrid } from '@material-ui/data-grid';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 100,
+const columns = [
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'faultName', headerName: 'Fault', width: 130 },
+  { field: 'topDaily', headerName: 'Daily', width: 130, type:'number' },
+  {
+    field: 'topWeekly',
+    headerName: 'Weekly',
+    type: 'number',
+    width:130 ,
   },
-});
-
-function createData(fault, qty) {
-  return { fault, qty};
-}
-
-const rows = [
-  createData('Cubrebocas', 159),
-  createData('Sana distancia', 237),
-  createData('Manos', 262),
-  createData('Temperatura', 305),
-  createData('Facial', 356),
+  {
+    field: 'topMonthly',
+    headerName: 'Monthly',
+    width: 130,
+    type: 'number',
+  },
+  {
+    field: 'topYearly',
+    headerName: 'Yearly',
+    width: 130,
+    type: 'number',
+  },
 ];
 
-export default function BasicTable() {
-  const classes = useStyles();
+const rows = [
+  { id: 1, faultName: 'Cubrebocas', topDaily: 2, topWeekly: 26, topMonthly:70 ,topYearly:265},
+  { id: 2, faultName: 'Temperatura', topDaily: 1, topWeekly: 12, topMonthly:48 ,topYearly:121},
+  { id: 3, faultName: 'Sana distancia', topDaily: 12, topWeekly: 18, topMonthly:42 ,topYearly:165},
+  { id: 4, faultName: 'Lavado de manos', topDaily: 5, topWeekly: 11, topMonthly:35 ,topYearly:102},
+  { id: 5, faultName: 'Protector facial', topDaily: 8, topWeekly: 15, topMonthly:27 ,topYearly:172},
+ 
+];
 
+export default function TablaTop() {
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Faults</TableCell>
-            <TableCell align="right">Qty</TableCell>            
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.fault}>
-              <TableCell component="th" scope="row">
-                {row.fault}
-              </TableCell>
-              <TableCell align="right">{row.qty}</TableCell>            
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div style={{ height: 400, width: 'auto' }}>
+      <DataGrid rows={rows} columns={columns} pageSize={5}  />
+    </div>
   );
 }

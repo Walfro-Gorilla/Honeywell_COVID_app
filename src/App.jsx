@@ -57,6 +57,7 @@ const App = () => {
             </Route>
 
             <Route path="/config">
+              <Config/>
             </Route>
 
             <Route path="/tasker">

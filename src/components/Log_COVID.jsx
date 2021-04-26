@@ -13,9 +13,12 @@ const App = () => {
     const [modoEdicion,setModoEdicion] = React.useState(false)
     const [id,setId] = React.useState('')
 
+
+
     React.useEffect(() => {
 
-    const obtenerData = async () => {
+
+    const obtenerData = async () => { //FUNCION para obtener los datos de la BD
         
         try {
 
@@ -33,11 +36,11 @@ const App = () => {
 
     }
 
-    obtenerData()
+    obtenerData() //Ejecutamos la funcion 
 
     },[])
 
-    const agregar = async (e) => {
+    const agregar = async (e) => { //FUNCION para agregar datos ala BD
         e.preventDefault()
 
         if(!tarea.trim()){
@@ -70,7 +73,9 @@ const App = () => {
         console.log(tarea)
     }
 
-    const eliminar = async (id) => {
+
+
+    const eliminar = async (id) => { //ELIMINAR un dato de la BD
         try {
 
             const db = firebase.firestore()
@@ -86,11 +91,14 @@ const App = () => {
         }
     }
 
+
+
     const activarEdicion = (item) => {
         setModoEdicion(true)
         setTarea(item.name)
         setId(item.id)
     }
+    
 
     const editar = async (e) => {
         e.preventDefault()
