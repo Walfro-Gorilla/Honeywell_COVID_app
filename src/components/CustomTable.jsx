@@ -75,18 +75,18 @@ export default function CustomizedTables(props) {
               <StyledTableCell component="th" scope="row">
                 {row.nameFault}
               </StyledTableCell>
-              <StyledTableCell align="right">{
+              {/* <StyledTableCell align="right">{
                 <IconButton 
                   aria-label="Edit" 
                   size="small"
                 ><EditIcon/> 
                 </IconButton>}
-              </StyledTableCell>
+              </StyledTableCell> */}
               <StyledTableCell align="right">{
                 <IconButton 
                   aria-label="delete" 
                   size="small"
-                  onClick={() => deleteFault(row.id)}
+                  onClick={() => { if (window.confirm('Are you sure you wish to delete this item?')) deleteFault(row.id) } }
                 ><DeleteIcon/> 
                 </IconButton>}
               </StyledTableCell>             

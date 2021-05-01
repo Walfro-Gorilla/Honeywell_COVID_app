@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import {firebase} from '../firebase'
-import { Button,ButtonBase,ButtonGroup,Divider,TextField } from '@material-ui/core'
-import CustomTable from './CustomTable.jsx'
+import {firebase} from '../../firebase'
+import { Button,ButtonGroup,Divider,TextField } from '@material-ui/core'
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CustomTable from '../CustomTable.jsx'
 
 const Config = () => {
 
@@ -30,6 +31,10 @@ const Config = () => {
     }
     obtenerData()  //Ejecutamos la funcion
   },[])
+
+  //SNAPSHOTS 
+
+ 
 
   const addFault = async (e) => {
     e.preventDefault()
@@ -60,7 +65,14 @@ const Config = () => {
     console.log(fault)
   }
 
+  const top100Films = [
+    { title: 'Admin'},
+    { title: 'Data Analyst'},
+    { title: 'Scanner'},
+  ]
+  
     return (
+
         <Grid container spacing={3} justify="flex-end" >        
 
           <Grid item xs={12}>
@@ -69,6 +81,11 @@ const Config = () => {
             </Typography>   
             <hr/>
           </Grid>
+          <Grid item xs={12}>
+          <Typography variant="h4" color="primary" align="left">
+          FAULTS
+          </Typography>
+        </Grid>
 
         <Grid item xs={6} align="right">
           <form onSubmit={addFault}>
@@ -93,7 +110,61 @@ const Config = () => {
 
         <Grid item xs={6}>                    
          <CustomTable data={faults}/>
+         
         </Grid>
+
+        {/* <Grid item xs={12}>
+          <hr/>
+          <Typography variant="h4" color="primary" align="left">
+            USERS
+          </Typography>
+        </Grid>
+
+        <Grid item xs={6}>
+          <form onSubmit={addFault}>
+            <TextField
+              style={{ margin: 4 }}
+              placeholder="E mail"
+              fullWidth
+              margin="dense"         
+              variant="outlined"
+              onChange={e => setFault(e.target.value)}
+              value={fault}
+            />  
+            
+            <Autocomplete
+              style={{ margin: 4 }}
+              fullWidth
+              margin="dense"         
+              variant="outlined"
+              id="combo-box-demo"
+              options={top100Films}
+              getOptionLabel={(option) => option.title}
+              renderInput={(params) => <TextField {...params} label="Level" variant="outlined" />}
+            />
+            <TextField
+              style={{ margin: 4 }}
+              placeholder="Type a password"
+              fullWidth
+              type="password"
+              margin="dense"         
+              variant="outlined"
+              onChange={e => setFault(e.target.value)}
+              value={fault}
+            />  
+            <Button 
+              variant="outlined" 
+              color="primary" 
+              type="submit"
+            >
+              Add
+            </Button>
+          </form> 
+        </Grid>
+
+        <Grid item xs={6}>
+          <CustomTable data={faults}/>
+        </Grid> */}
        
         
                                        

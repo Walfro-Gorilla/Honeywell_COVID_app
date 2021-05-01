@@ -83,7 +83,8 @@ const Dashboard = () => {
       console.log('arreglo x FAULTS:',valueFault)
   
       }
-    
+      
+     
 
     return (
           <Grid container spacing={3} justify="flex-end">  

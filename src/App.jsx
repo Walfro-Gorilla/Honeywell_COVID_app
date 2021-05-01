@@ -8,14 +8,37 @@ import {
 //Importo las paginas
 import Formulario from './components/Formulario.jsx'
 import Dashboard from './components/Dashboard.jsx'
-import Config from './components/Config.jsx'
+import Config from './components/Pages/Config.jsx'
 import Registro from './components/TEST/Registro.jsx'
 import Tasker from './components/Tasks.jsx'
 import Navbar from './components/Navbar.jsx'
 import {ThemeProvider} from '@material-ui/core/styles'
 import theme from './components/temaConfig'
+//Importamos firebase
+import {firebase} from './firebase'
+
 
 const App = () => {
+
+  const [dataOptions,setDataOptions] = React.useState([]) // Creamos un state para la informacion de los faults
+
+      React.useEffect(() => { //Al abrir este componente se ejecuta lo siguiente...
+        
+        document.title="Honeywell COVID actions" //Cambiamos el titulo de la pagina
+
+        const obtenerData = async () => { //Creamos una funcion ASYNC AWAIT           
+            try {                  
+                const db= firebase.firestore() //Creamos la constate de la BD
+                const data = await db.collection('faults').get() // Especificamos que coleccion queremos
+                const arrayData = await data.docs.map(doc => ({ id: doc.id, ...doc.data()})) //Obtenemos la data de la BD
+                setDataOptions(arrayData) //Asignamos el array al states
+                console.log('Array de App.jsx: ',dataOptions.data)
+            } catch (error) { 
+                console.log(error)  // Si falla, nos envia un mensaje a la consola
+            }            }      
+          obtenerData()  //Ejecutamos la funcion
+        },[]) //Importante agregar [] para no generar un loop
+
   return (
     <ThemeProvider theme={theme}>
         <Router>
@@ -33,7 +56,7 @@ const App = () => {
               Actions
             </Link>
             
-            <Link to="/config" className="btn btn-warning">
+            <Link  to="/config" className="btn btn-warning">
               Config
             </Link>
           
@@ -61,7 +84,7 @@ const App = () => {
             </Route>
 
             <Route path="/tasker">
-              <Tasker/>
+              <Tasker opt={dataOptions}/>
             </Route>
 
           </Switch> 

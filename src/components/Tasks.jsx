@@ -11,7 +11,7 @@ import OkMsg from './OkMsg.jsx'
 const currencies = [
     {
         value: '-',
-        label: '-',
+        label: '-', 
     },
     {
         value: 'Cubrebocas',
@@ -35,7 +35,12 @@ const currencies = [
     },
   ];
 
-const App = () => {
+ 
+
+const App = (props) => {
+
+    
+    console.log('estos son la opc: ',props.opt)
 
     //STATE tarea -> no gafete
     const [tarea,setTarea] = React.useState('')
@@ -49,7 +54,7 @@ const App = () => {
     const [error,setError] = React.useState(false)
     const [save,setSave] = React.useState(false)
 
-
+    const [opciones,setOpciones] = React.useState([])
 
 
     const agregar = async (e) => {
@@ -121,8 +126,11 @@ const App = () => {
           setSave(false)
       }
 
+      
+
 
     return (
+        
         <div className="container mt-3">
             <div className="row">
 
@@ -155,16 +163,15 @@ const App = () => {
                             id="outlined-select-currency"
                             select
                             label="Fault"
-                            value={currency}
                             onChange={handleChange}
                             helperText="Please select fault"
                             variant="outlined"
                             margin="normal"
                             fullWidth
                             >
-                            {currencies.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                            {props.opt.map((option) => (
+                                <MenuItem key={option.nameFault} value={option.nameFault}>
+                                {option.nameFault}
                                 </MenuItem>
                             ))}
                         </TextField>   
