@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid'
 import ExcelExport from './ExcelExport.jsx'
 import TopTable from './TablaTop.jsx'
 import Typography from '@material-ui/core/Typography'
-import {firebase} from '../firebase'
+import {db} from '../firebase'
 import { Button,ButtonGroup } from '@material-ui/core'
 
 const Dashboard = () => {
@@ -18,7 +18,6 @@ const Dashboard = () => {
 
         const obtenerData = async () => { //Creamos una funcion ASYNC AWAIT           
             try {                  
-                const db= firebase.firestore() //Creamos la constate de la BD
                 const data = await db.collection('tareas').get() // Especificamos que coleccion queremos
                 const arrayData = await data.docs.map(doc => ({ id: doc.id, ...doc.data()})) //Obtenemos la data de la BD
                 setdataFault(arrayData) //Asignamos el array al states

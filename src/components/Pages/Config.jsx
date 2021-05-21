@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import {firebase} from '../../firebase'
+import {db} from '../../firebase'
 import { Button,ButtonGroup,Divider,TextField } from '@material-ui/core'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CustomTable from '../CustomTable.jsx'
@@ -16,8 +16,6 @@ const Config = () => {
     const obtenerData = async () => {
 
       try {
-
-        const  db = firebase.firestore() // Inicializamos la BD en firestore
         const data = await db.collection('faults').get()
 
         const arrayData = data.docs.map(doc => ({ id:doc.id, ...doc.data() }))//Conertimos en ARRAY la data de 
@@ -45,8 +43,6 @@ const Config = () => {
     }
 
     try {
-
-      const db = firebase.firestore()
       const newFault = {
         nameFault:fault
       }

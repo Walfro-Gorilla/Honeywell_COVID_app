@@ -1,5 +1,5 @@
 import React from 'react'
-import {firebase} from '../firebase'
+import {db} from '../firebase'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
@@ -93,8 +93,6 @@ const App = (props) => {
         
 
         try {
-
-            const db = firebase.firestore()
             const nuevaTarea = {
                 name: tarea,
                 fault:fault,

@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import { Button,IconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {firebase} from '../firebase'
+import {db} from '../firebase'
 
 
 
@@ -42,7 +42,6 @@ const useStyles = makeStyles({
 const deleteFault = async (id) => {
 
   try {
-    const db = firebase.firestore()
     await db.collection('faults').doc(id).delete()
     
     const faultsFiltered = db.collection('faults').doc().filter(row => row.id !==id)
