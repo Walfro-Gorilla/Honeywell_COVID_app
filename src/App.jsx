@@ -14,6 +14,7 @@ import Tasker from './components/Tasks.jsx'
 import Navbar from './components/Navbar.jsx'
 import {ThemeProvider} from '@material-ui/core/styles'
 import theme from './components/temaConfig'
+import Scan from './components/Scan'
 //Importamos firebase
 import {firebase} from './firebase'
 
@@ -22,7 +23,8 @@ const App = () => {
 
   const [dataOptions,setDataOptions] = React.useState([]) // Creamos un state para la informacion de los faults
 
-      React.useEffect(() => { //Al abrir este componente se ejecuta lo siguiente...
+      
+  React.useEffect(() => { //Al abrir este componente se ejecuta lo siguiente...
         
         document.title="Honeywell COVID actions" //Cambiamos el titulo de la pagina
 
@@ -37,7 +39,7 @@ const App = () => {
                 console.log(error)  // Si falla, nos envia un mensaje a la consola
             }            }      
           obtenerData()  //Ejecutamos la funcion
-        },[]) //Importante agregar [] para no generar un loop
+    },[]) //Importante agregar [] para no generar un loop
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,6 +58,8 @@ const App = () => {
               Actions
             </Link>
             
+            
+
             <Link  to="/config" className="btn btn-warning">
               Config
             </Link>
@@ -81,6 +85,10 @@ const App = () => {
 
             <Route path="/config">
               <Config/>
+            </Route>
+
+            <Route path="/scan">
+              <Scan/>
             </Route>
 
             <Route path="/tasker">

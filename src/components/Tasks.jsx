@@ -6,7 +6,16 @@ import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem';
 import ErrorMsg from './ErrorMsg.jsx'
 import OkMsg from './OkMsg.jsx'
+import Grid from '@material-ui/core/Grid'
+import Scan from './Scan.jsx'
 
+import Dialog from '@material-ui/core/Dialog';
+
+
+import IconButton from '@material-ui/core/IconButton';
+import ScanIcon from '@material-ui/icons/SettingsOverscan';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 const currencies = [
     {
@@ -38,6 +47,9 @@ const currencies = [
  
 
 const App = (props) => {
+
+    const [scanOpen, setScanOpen] = React.useState(false);
+
 
     
     console.log('estos son la opc: ',props.opt)
@@ -122,95 +134,134 @@ const App = (props) => {
          setTarea(event.target.value) 
       }
 
+      
       const handleClose = (event) => {
           setSave(false)
       }
 
-      
+     
+      const handleClickOpen = () => {
+        setScanOpen(true);
+        console.log(scanOpen)
+      };
+
+      const handleScan = (e) => {
+        setTarea(e)
+        setScanOpen(false)
+    }
+
+    //bUTTON PRUEBA
+    
+    const useStyles = makeStyles((theme) => ({
+        margin: {
+          margin: theme.spacing(1),
+        },
+        extendedIcon: {
+          marginRight: theme.spacing(1),
+        },
+      }));
+
+        const classes = useStyles();
+
+    return (   
+        scanOpen === true ? 
+        (
+            <Dialog aria-labelledby="simple-dialog-title" open={scanOpen}>
+                
+                    <Scan handleScan={e=> handleScan(e)}/>
+            </Dialog>  
+        ) : 
+        (        
+            <div className="container mt-3">            
+            
+                <div className="row"> 
+
+                    <div className="col-md-12">
+                        
+                        <Typography variant="h3" color="primary" paragraph>
+                            COVID actions
+                        </Typography>
+                        
+                        <form onSubmit={agregar}>
+                            <Grid container spacing={0} justify="flex-end">
+                                <Grid item xs={10} >
+                                    <TextField
+                                        // error id="standard-error" 
+                                        id="outlined-basic"
+                                        label="Ingrese numero de gafete"
+                                        variant="outlined"
+                                        value={tarea}
+                                        onChange={handleNumbers}
+                                        margin='normal'
+                                        fullWidth                                                    
+                                    />
+                                </Grid>  
+
+                                <Grid  item xs={2} >
+                                    <IconButton onClick={handleClickOpen} size="medium" edge   >
+                                        <ScanIcon fontSize="large" />
+                                    </IconButton>
+                                </Grid>         
+                                                                  
+                                
+                            </Grid>                        
+                            
 
 
-    return (
-        
-        <div className="container mt-3">
-            <div className="row">
+                            <TextField
+                                id="outlined-select-currency"
+                                select
+                                label="Fault"
+                                onChange={handleChange}
+                                helperText="Please select fault"
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                >
+                                {props.opt.map((option) => (
+                                    <MenuItem key={option.nameFault} value={option.nameFault}>
+                                    {option.nameFault}
+                                    </MenuItem>
+                                ))}
+                            </TextField>   
+                             
 
+                            <TextField
+                                id="outlined-multiline-static"
+                                label="Description"
+                                multiline
+                                rows={10}
+                                placeholder="HOW?..."
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                value={desc}
+                                onChange={e => setDesc(e.target.value)}
+                            /> 
 
-
-                <div className="col-md-12">
-                    
-                    <Typography variant="h3" color="primary" paragraph>
-                        COVID actions
-                    </Typography>
-                    <form onSubmit={agregar}>
-
-                                       
-
-                        <TextField
-                        // error id="standard-error" 
-                        id="outlined-basic"
-                        label="Ingrese numero de gafete"
-                        variant="outlined"
-                        value={tarea}
-                        onChange={handleNumbers}
-                        margin='normal'
-
-                        fullWidth    
-                                                
-                        />
-
-
-                        <TextField
-                            id="outlined-select-currency"
-                            select
-                            label="Fault"
-                            onChange={handleChange}
-                            helperText="Please select fault"
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
+                            {
+                                error ? <ErrorMsg /> : null
+                            }  
+                            {
+                                save ? <OkMsg /> : null
+                            }                      
+                            
+                            
+                            <Button 
+                                variant="outlined" 
+                                color="primary"
+                                type="submit"
+                                fullWidth
                             >
-                            {props.opt.map((option) => (
-                                <MenuItem key={option.nameFault} value={option.nameFault}>
-                                {option.nameFault}
-                                </MenuItem>
-                            ))}
-                        </TextField>   
-
-                        <TextField
-                            id="outlined-multiline-static"
-                            label="Description"
-                            multiline
-                            rows={10}
-                            placeholder="HOW?..."
-                            variant="outlined"
-                            margin="normal"
-                            fullWidth
-                            value={desc}
-                            onChange={e => setDesc(e.target.value)}
-                        /> 
-
-                        {
-                            error ? <ErrorMsg /> : null
-                        }  
-                        {
-                            save ? <OkMsg /> : null
-                        }                      
-                        
-                        
-                        <Button 
-                            variant="outlined" 
-                            color="primary"
-                            type="submit"
-                            fullWidth
-                        >
-                            REGISTRAR                          
-                        </Button>
-                        <hr/>  
-                        
-                    </form>
-                </div>
-            </div>            
-        </div>
+                                REGISTRAR                          
+                            </Button>
+                            <hr/>  
+                            
+                        </form>
+                    </div>
+                </div> 
+            </div>
+        )
     )
 }
 
