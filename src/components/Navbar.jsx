@@ -9,6 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import {Link} from 'react-router-dom';
+import {auth} from '../firebase';
 
 const drawerWidth = 240;
 
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -125,24 +126,36 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          <Link to='/dashboard' style={{color: '#000'}}>
-            <ListItem button key={1}>
-              <ListItemIcon><InboxIcon /> </ListItemIcon>
-              <ListItemText primary='Dashboard' />
-            </ListItem>
-          </Link>
           <Link to='/tasker' style={{color: '#000'}}>
             <ListItem button key={1}>
               <ListItemIcon><InboxIcon /> </ListItemIcon>
               <ListItemText primary='Actions' />
             </ListItem>
           </Link>
-          <Link to='/config' style={{color: '#000'}}>
-            <ListItem button key={1}>
-              <ListItemIcon><InboxIcon /> </ListItemIcon>
-              <ListItemText primary='Config' />
-            </ListItem>
-          </Link>
+          {
+            (props.nivel===2) ? (
+              <React.Fragment>
+                <Link to='/dashboard' style={{color: '#000'}}>
+                  <ListItem button key={2}>
+                    <ListItemIcon><InboxIcon /> </ListItemIcon>
+                    <ListItemText primary='Dashboard' />
+                  </ListItem>
+                </Link>
+                <Link to='/config' style={{color: '#000'}}>
+                  <ListItem button key={3}>
+                    <ListItemIcon><InboxIcon /> </ListItemIcon>
+                    <ListItemText primary='Config' />
+                  </ListItem>
+                </Link>
+              </React.Fragment>
+            ):(
+              null
+            )
+          }
+          <ListItem button key={4} onClick={()=> auth.signOut()}>
+            <ListItemIcon><InboxIcon /> </ListItemIcon>
+            <ListItemText primary='Logout' />
+          </ListItem>
         </List>
       </Drawer>
       <main

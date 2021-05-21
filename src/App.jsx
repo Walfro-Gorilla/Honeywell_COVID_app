@@ -22,23 +22,27 @@ import {firebase, db, auth} from './firebase'
 const user = auth.currentUser;
 
 const App = () => {
-  const [dataOptions,setDataOptions] = React.useState([]) // Creamos un state para la informacion de los faults
-  const [logged, setLogged] = React.useState(false) //hook que indica si ya inicio sesion o no
+  const [dataOptions,setDataOptions] = React.useState([]); // Creamos un state para la informacion de los faults
+  const [logged, setLogged] = React.useState(false); //hook que indica si ya inicio sesion o no
+  const [cargando, setCargando] = React.useState(true);
+  const [nivel, setNivel] = React.useState(null);
 
-  auth.onAuthStateChanged(() => {
+  auth.onAuthStateChanged(async() => {
     if(auth.currentUser){
       setLogged(true);
+      setCargando(false);
+      const usuario =await db.collection('usuarios').where('correo', '==', auth.currentUser.email).get();
+      const docs =  usuario.docs;
+      docs.map(doc=>{
+        setNivel(doc.data().nivel)
+      })
+    }else{
+      setLogged(false);
+      setCargando(false);
     }
   })
 
   React.useEffect(() => { //Al abrir este componente se ejecuta lo siguiente...
-    //const checklogin = async()=>{
-    //  const user = await auth.currentUser;
-    //  setTimeout(() => {
-    //    alert(user.email + 'Hola');
-    //  }, 5000);
-    //}
-    //checklogin();
     document.title="Honeywell COVID actions" //Cambiamos el titulo de la pagina
     const obtenerData = async () => { //Creamos una funcion ASYNC AWAIT           
       try {                  
@@ -54,40 +58,53 @@ const App = () => {
     },[]) //Importante agregar [] para no generar un loop
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
       <Router>
-        <div className="container mt-5">
+        <div className="container mt-2">
           {
-            (logged===true) ? (
-              <React.Fragment>
-                <Navbar/>
-                <Switch>
-                  {/* Asignar rutas  de las mas especifica(/) hasta la mas general, o agregando 'exact' en PATH    */}
-                  <Route path="/dashboard/:id">
-                    <Registro/>
-                  </Route>
-                  <Route path="/formulario">
-                    <Formulario/>      
-                  </Route>
-                  <Route path="/dashboard">
-                    <Dashboard/>
-                  </Route>
-                  <Route path="/config">
-                    <Config/>
-                  </Route>
-                  <Route path="/scan">
-                    <Scan/>
-                  </Route>
-                  <Route path="/tasker">
-                    <Tasker opt={dataOptions}/>
-                  </Route>
-                  <Route path="/">
-                    <Redirect to='/dashboard'/>
-                  </Route>
-                </Switch>   
-              </React.Fragment>
+            (cargando===true) ? (
+              <center><h1>Cargando...</h1></center>
             ):(
-              <Login/>
+              (logged===true) ? (
+                <React.Fragment>
+                  <Navbar nivel={nivel}/>
+
+                  <Switch>
+                    {/* Asignar rutas  de las mas especifica(/) hasta la mas general, o agregando 'exact' en PATH    */}
+                    <Route path="/tasker">
+                      <Tasker opt={dataOptions}/>
+                    </Route>
+                    <Route exact path="/">
+                      <Redirect to='/tasker'/>
+                    </Route>
+                    {
+                      nivel===2 ? (
+                        <React.Fragment>
+                          <Route path="/dashboard/:id">
+                            <Registro/>
+                          </Route>
+                          <Route path="/formulario">
+                            <Formulario/>      
+                          </Route>
+                          <Route path="/dashboard">
+                            <Dashboard/>
+                          </Route>
+                          <Route path="/config">
+                            <Config/>
+                          </Route>
+                          <Route path="/scan">
+                            <Scan/>
+                          </Route>
+                        </React.Fragment>
+                      ):(
+                        null
+                      )
+                    }
+                  </Switch>   
+                </React.Fragment>
+              ):(
+                <Login/>
+              )
             )
           } 
         </div>
