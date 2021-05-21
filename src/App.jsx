@@ -6,6 +6,7 @@ import {
   Route,Link,NavLink, Redirect
 } from "react-router-dom";
 //Importo las paginas
+import Register from './components/Register'
 import Login from './components/Login'
 import Formulario from './components/Formulario.jsx'
 import Dashboard from './components/Dashboard.jsx'
@@ -68,7 +69,6 @@ const App = () => {
               (logged===true) ? (
                 <React.Fragment>
                   <Navbar nivel={nivel}/>
-
                   <Switch>
                     {/* Asignar rutas  de las mas especifica(/) hasta la mas general, o agregando 'exact' en PATH    */}
                     <Route path="/tasker">
@@ -76,6 +76,9 @@ const App = () => {
                     </Route>
                     <Route exact path="/">
                       <Redirect to='/tasker'/>
+                    </Route>
+                    <Route exact path="/register">
+                      <Register/>
                     </Route>
                     {
                       nivel===2 ? (
@@ -100,10 +103,20 @@ const App = () => {
                         null
                       )
                     }
+                    
                   </Switch>   
                 </React.Fragment>
               ):(
-                <Login/>
+                <React.Fragment>
+                  <Switch>
+                    <Route exact path="/register">
+                      <Register/>
+                    </Route>
+                    <Route path="/">
+                      <Login/>
+                    </Route>
+                  </Switch>
+                </React.Fragment>
               )
             )
           } 
