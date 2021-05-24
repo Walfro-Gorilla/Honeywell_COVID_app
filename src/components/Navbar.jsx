@@ -7,7 +7,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import BuildIcon from '@material-ui/icons/Build';
 import {Link} from 'react-router-dom';
 import {auth} from '../firebase';
 
@@ -137,13 +139,13 @@ export default function PersistentDrawerLeft(props) {
               <React.Fragment>
                 <Link to='/dashboard' style={{color: '#000'}}>
                   <ListItem button key={2}>
-                    <ListItemIcon><InboxIcon /> </ListItemIcon>
+                    <ListItemIcon><DashboardIcon /> </ListItemIcon>
                     <ListItemText primary='Dashboard' />
                   </ListItem>
                 </Link>
                 <Link to='/config' style={{color: '#000'}}>
                   <ListItem button key={3}>
-                    <ListItemIcon><InboxIcon /> </ListItemIcon>
+                    <ListItemIcon><BuildIcon /> </ListItemIcon>
                     <ListItemText primary='Config' />
                   </ListItem>
                 </Link>
@@ -153,7 +155,7 @@ export default function PersistentDrawerLeft(props) {
             )
           }
           <ListItem button key={4} onClick={()=> auth.signOut()}>
-            <ListItemIcon><InboxIcon /> </ListItemIcon>
+            <ListItemIcon><ExitToAppIcon /> </ListItemIcon>
             <ListItemText primary='Logout' />
           </ListItem>
         </List>
