@@ -47,7 +47,11 @@ const Scan = props => {
                     type : "LiveStream",
                     target: document.querySelector('#video'),
                     constraints: {
-                        facingMode: 'environment',
+                        width: {min: 640},
+                        height: {min: 480},
+                        aspectRatio: {min: 1, max: 100},
+                        //facingMode: "environment" // or user
+                        deviceId: backCamID
                     },
                 },
                 numOfWorkers: 1,
@@ -79,6 +83,36 @@ const Scan = props => {
       }));
 
         const classes = useStyles();
+
+
+        //Camera ID
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+            alert("enumerateDevices() not supported.");
+            return;
+          }
+          
+          var backCamID;
+          
+          navigator.mediaDevices.enumerateDevices()
+          .then(function(devices) {
+            devices.forEach(function(device) {
+              //alert( JSON.stringify(device) );
+              if( device.kind == "videoinput" && device.label.match(/back/) != null ){
+                //alert("Back found!");
+                backCamID = device.deviceId;
+              }
+            });
+          })
+          .catch(function(err) {
+            //alert(err.name + ": " + err.message);
+          });
+          
+          if(typeof(backCamID)=="undefined"){
+            console.log("back camera not found.");
+          }
+
+          console.log("ID Camera atras: ", backCamID)
 
     return (
         <>
