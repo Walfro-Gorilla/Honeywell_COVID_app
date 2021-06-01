@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const Scan = props => {
 
+    let res2=''
+
     const onDetected = result => { // Al detectar un codigo de Barras
         
         let isbn = result.codeResult.code; // Creamos y asignamos el valor escaneado a una variable
@@ -114,6 +116,10 @@ const Scan = props => {
 
           console.log("ID Camera atras: ", backCamID)
 
+          const handleClose = () => {
+            props.handleScan(res2)      
+             }
+
     return (
         <>
             <Video id="video" />
@@ -134,7 +140,7 @@ const Scan = props => {
                     width="137"
                     height="69"                    
                 />  
-                <Button  variant="outlined" size="small" color="secondary" className={classes.margin}>
+                <Button variant="outlined" size="small" color="secondary" className={classes.margin} onClick={() => handleClose()} >
                     back
                 </Button> 
                          

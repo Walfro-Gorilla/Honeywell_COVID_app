@@ -17,37 +17,10 @@ import ScanIcon from '@material-ui/icons/SettingsOverscan';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const currencies = [
-    {
-        value: '-',
-        label: '-', 
-    },
-    {
-        value: 'Cubrebocas',
-        label: 'Sin cubrebocas',
-    },   
-    {
-        value: 'Protector facial',
-        label: 'Sin Protector facial',
-    },
-    {
-      value: 'Sana Distancia',
-      label: 'Sin Sana distancia',
-    },
-    {
-        value: 'Manos limpias',
-        label: 'No se lavo las manos',
-    },
-    {
-    value: 'Temperatura',
-    label: 'Alta temperatura',
-    },
-  ];
-
- 
 
 const App = (props) => {
-
+    
+    //HOOK de estado para el lector de scanner
     const [scanOpen, setScanOpen] = React.useState(false);
 
 
@@ -82,14 +55,7 @@ const App = (props) => {
             setError(true)
             setTimeout(function(){setError(false)},3000)
             return
-        } else if(!desc.trim()){
-            console.log('Esta vacio la desc')
-            setError(true)
-            setTimeout(function(){setError(false)},3000)
-            return
         }
-        
-        
         
 
         try {
@@ -102,15 +68,13 @@ const App = (props) => {
             setSave(true)
             setTimeout(function(){setSave(false)},3000)
 
-            const data = await db.collection('tareas').add(nuevaTarea)
-           
-
-           
+                      
             setTarea('')
             setFault('')
             setDesc('')
             setCurrency('')
             setError(false)
+            window.location.reload(false);
             
             
         } catch (error) {
@@ -133,9 +97,6 @@ const App = (props) => {
       }
 
       
-      const handleClose = (event) => {
-          setSave(false)
-      }
 
      
       const handleClickOpen = () => {
@@ -159,7 +120,6 @@ const App = (props) => {
         },
       }));
 
-        const classes = useStyles();
 
         if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
             console.log("enumerateDevices() not supported.");
