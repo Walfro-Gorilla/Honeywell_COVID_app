@@ -67,7 +67,16 @@ const Dashboard = () => {
         const dateFormat = 'MM/DD/YYYY'; // Asignamos el formato de la fecha a 'dateFormat'
         const customFormat = value => `custom format: ${value.format(dateFormat)}`; //Asignamos el formato por default a 'customFormat'
         
+
+
         
+        // --------- START FILTER by datapickers ---------------------//
+
+        const filterArray = sortArray.filter  ((a, b) => (a.fecha > b.fecha) ? 1 : -1) // Sortea los 'dataFault' de menor a mayor y lo asigna a 'sortArray'
+
+
+        // --------- END FILTER by datapickers ---------------------//
+
         
 
 
