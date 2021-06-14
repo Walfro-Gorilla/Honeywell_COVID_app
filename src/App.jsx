@@ -28,6 +28,7 @@ const App = () => {
   const [cargando, setCargando] = React.useState(true);
   const [nivel, setNivel] = React.useState(null);
 
+
   auth.onAuthStateChanged(async() => {
     if(auth.currentUser){
       setLogged(true);
@@ -39,7 +40,7 @@ const App = () => {
       })
     }else{
       setLogged(false);
-      setCargando(false);
+      setCargando(false); 
     }
   })
 
@@ -64,7 +65,7 @@ const App = () => {
         <div className="container mt-2">
           {
             (cargando===true) ? (
-              <center><h1>Cargando...</h1></center>
+              <center><h1>Loading...</h1></center>
             ):(
               (logged===true) ? (
                 <React.Fragment>

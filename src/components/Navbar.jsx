@@ -106,7 +106,7 @@ export default function PersistentDrawerLeft(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h7" noWrap>
             COVID Actions
           </Typography>
         </Toolbar>

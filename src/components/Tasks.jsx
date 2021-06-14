@@ -1,7 +1,7 @@
 import React from 'react'
 import {db} from '../firebase'
-import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import MenuItem from '@material-ui/core/MenuItem';
 import ErrorMsg from './ErrorMsg.jsx'
@@ -11,12 +11,15 @@ import Scan from './Scan.jsx'
 
 import Dialog from '@material-ui/core/Dialog';
 
-
 import IconButton from '@material-ui/core/IconButton';
 import ScanIcon from '@material-ui/icons/SettingsOverscan';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+// Ant Designe
+import { Divider } from 'antd';
+import { Row, Col } from 'antd';
+import 'antd/dist/antd.css';
 
 const App = (props) => {
     
@@ -42,50 +45,56 @@ const App = (props) => {
     const [opciones,setOpciones] = React.useState([])
 
 
-    const agregar = async (e) => {
-        e.preventDefault()
-        setError(false)
+    //--- START Funcion 'agregar' acciones de scan a la BD. ---//
+    const agregar = async (e) => { 
 
-        if(!tarea.trim()){    
-            setError(true)  
-            setTimeout(function(){setError(false)},3000)
-            return  
-        } else if(!fault.trim()){
-            console.log('Esta vacio la Falta')
-            setError(true)
-            setTimeout(function(){setError(false)},3000)
-            return
+        e.preventDefault() // Evitamos el refresh de la pagina
+        setError(false) //Inicializamos el state Error en FALSE
+
+        if(!tarea.trim()){ //Evaluamos si el campo TAREA cuenta con data  
+            setError(true)    //Si esta vacio, cargamos el STATE Error con el mensaje
+            setTimeout(function(){setError(false)},3000) // Lo mostramos en pantalla
+            return  //Salimos de la funcion
+        } else if(!fault.trim()){   //Evaluamos si el campo FAULT cuenta con data
+            //console.log('Esta vacio la Falta')  //Mostramos el mensaje de error en console log.
+            setError(true) //Si esta vacio, cargamos el STATE Error con el mensaje
+            setTimeout(function(){setError(false)},3000) // Lo mostramos en pantalla
+            return //Salimos de la funcion
         }
-        
 
         try {
+
+            let today = new Date(); 
+            let dateScan= parseInt(today.getMonth()+1) +"/"+ today.getDate() + "/"+ today.getFullYear();
+
             const nuevaTarea = {
                 name: tarea,
                 fault:fault,
                 desc:desc,
-                fecha:new Date(Date.now()).toLocaleDateString()
+                fecha: dateScan                  
             }
+           
+            await db.collection('tareas').add(nuevaTarea)
             setSave(true)
             setTimeout(function(){setSave(false)},3000)
 
+            
+            console.log('fecha mod: ',dateScan)
                       
             setTarea('')
             setFault('')
             setDesc('')
             setCurrency('')
-            setError(false)
-            window.location.reload(false);
-            
+            setError(false)           
             
         } catch (error) {
             console.log(error)
         }
-
-        console.log(tarea)
-        
+        console.log(tarea)        
     }
+    //--- END Funcion 'agregar' acciones de scan a la BD. ---//
 
-   
+
 
     const handleChange = (event) => {
         setCurrency(event.target.value);
@@ -96,9 +105,6 @@ const App = (props) => {
          setTarea(event.target.value) 
       }
 
-      
-
-     
       const handleClickOpen = () => {
         setScanOpen(true);
         console.log(scanOpen)
@@ -108,6 +114,8 @@ const App = (props) => {
         setTarea(e)
         setScanOpen(false)
     }
+
+    
 
     //bUTTON PRUEBA
     
@@ -158,31 +166,42 @@ const App = (props) => {
 
                     <div className="col-md-12">
                         
-                        <Typography variant="h3" color="primary" paragraph>
-                            COVID actions
+                        <Typography variant="h4" color="primary" paragraph>
+                            Alert Scanner
                         </Typography>
+
+                        <Divider/>
                         
                         <form onSubmit={agregar}>
                             <Grid container spacing={0} justify="flex-end">
                                 <Grid item xs={10} >
-                                    <TextField
-                                        // error id="standard-error" 
-                                        id="outlined-basic"
-                                        label="Ingrese numero de gafete"
-                                        variant="outlined"
-                                        value={tarea}
-                                        onChange={handleNumbers}
-                                        margin='normal'
-                                        fullWidth                                                    
-                                    />
+                                    <Row gutter={[24, 8]}>
+                                        <Col align="right" span={24}>                                          
+                                            <TextField
+                                            // error id="standard-error" 
+                                            id="outlined-basic"
+                                            label="Scan ID"
+                                            variant="outlined"
+                                            value={tarea}
+                                            onChange={handleNumbers}
+                                            margin='normal'
+                                            fullWidth                                                    
+                                            />
+                                        </Col>
+                                    </Row>                                    
                                 </Grid>  
 
-                                <Grid  item xs={2} >
-                                    <IconButton onClick={handleClickOpen} size="medium" edge   >
-                                        <ScanIcon fontSize="large" />
-                                    </IconButton>
-                                </Grid>         
-                                                                  
+                               
+
+                                <Grid item xs={2}>  
+                                    <Row gutter={[24, 8]}>
+                                        <Col wrap align="center" span={24}>
+                                            <IconButton onClick={handleClickOpen} size="large"   >
+                                              <ScanIcon fontSize="large" />
+                                            </IconButton>
+                                        </Col>
+                                    </Row>              
+                                </Grid>                     
                                 
                             </Grid>                        
                             
@@ -191,12 +210,13 @@ const App = (props) => {
                             <TextField
                                 id="outlined-select-currency"
                                 select
-                                label="Fault"
+                                label="Alert"
                                 onChange={handleChange}
-                                helperText="Please select fault"
+                                helperText="Please select an alert"
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth
+                                value={fault}
                                 >
                                 {props.opt.map((option) => (
                                     <MenuItem key={option.nameFault} value={option.nameFault}>
@@ -208,10 +228,10 @@ const App = (props) => {
 
                             <TextField
                                 id="outlined-multiline-static"
-                                label="Description"
+                                label="Description (optional)"
                                 multiline
                                 rows={10}
-                                placeholder="HOW?..."
+                                placeholder="How did this happen??..."
                                 variant="outlined"
                                 margin="normal"
                                 fullWidth
@@ -224,19 +244,18 @@ const App = (props) => {
                             }  
                             {
                                 save ? <OkMsg /> : null
-                            }                      
-                            
-                            
+                            }    
+                            <Divider />                            
                             <Button 
                                 variant="outlined" 
+
                                 color="primary"
                                 type="submit"
                                 fullWidth
                             >
-                                REGISTRAR                          
+                                Submit                          
                             </Button>
-                            <hr/>  
-                            
+                            <Divider />
                         </form>
                     </div>
                 </div> 

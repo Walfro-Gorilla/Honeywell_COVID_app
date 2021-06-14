@@ -131,7 +131,7 @@ const Scan = props => {
                         width="260"
                         height="260"
                     />
-                    <p className="label"> Scan IT</p>
+                    <p className="label"> Scan ID</p>
                 </ScanMarker>   
 
                 <img 
