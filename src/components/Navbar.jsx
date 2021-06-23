@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles, useTheme, Drawer, CssBaseline, AppBar, Toolbar, List, Typography,
-        Divider, IconButton, ListItem, ListItemIcon, ListItemText
+        Divider, IconButton, ListItem, ListItemIcon, ListItemText, 
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -9,6 +9,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import BuildIcon from '@material-ui/icons/Build';
 import {Link} from 'react-router-dom';
 import {auth} from '../firebase';
@@ -147,6 +148,12 @@ export default function PersistentDrawerLeft(props) {
                   <ListItem button key={3}>
                     <ListItemIcon><BuildIcon /> </ListItemIcon>
                     <ListItemText primary='Config' />
+                  </ListItem>
+                </Link>
+                <Link to='/users' style={{color: '#000'}}>
+                  <ListItem button key={3}>
+                    <ListItemIcon><SupervisorAccountIcon /> </ListItemIcon>
+                    <ListItemText primary='Users' />
                   </ListItem>
                 </Link>
               </React.Fragment>

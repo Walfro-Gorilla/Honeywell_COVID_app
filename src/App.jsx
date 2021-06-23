@@ -99,6 +99,9 @@ const App = () => {
                           <Route path="/scan">
                             <Scan/>
                           </Route>
+                          <Route exact path="/users">
+                            <Register/>
+                          </Route>
                         </React.Fragment>
                       ):(
                         null
@@ -110,9 +113,6 @@ const App = () => {
               ):(
                 <React.Fragment>
                   <Switch>
-                    <Route exact path="/register">
-                      <Register/>
-                    </Route>
                     <Route path="/">
                       <Login/>
                     </Route>
